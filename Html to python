@@ -1,0 +1,32 @@
+<form id="myForm">
+  <input type="text" id="textbox" />
+  <button type="button" onclick="saveValue()">Save</button>
+</form>
+
+
+function saveValue() {
+  var inputValue = document.getElementById("textbox").value;
+  // You can use AJAX to send this value to a Python script on the server.
+  // Alternatively, you can save it in a cookie or local storage.
+}
+
+from flask import Flask, request
+
+app = Flask(__name__)
+
+@app.route('/process_value', methods=['POST'])
+def process_value():
+    value_from_html = request.form['inputValue']  # 'inputValue' corresponds to the key in the form data
+    # Now you can use this 'value_from_html' in your Python code.
+    return "Value processed successfully"
+
+if __name__ == '__main__':
+    app.run()
+
+function saveValue() {
+  var inputValue = document.getElementById("textbox").value;
+  
+  $.post('/process_value', { inputValue: inputValue }, function(data) {
+    alert(data); // Display the response from the server
+  });
+}
