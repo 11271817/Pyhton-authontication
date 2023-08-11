@@ -1,0 +1,27 @@
+from flask import Flask, render_template, request, redirect, url_for
+
+app = Flask(__name__)
+
+# A simple in-memory storage for demonstration purposes
+stored_data = ""
+
+@app.route("/", methods=["GET", "POST"])
+def input_page():
+    global stored_data  # Access the global variable
+    if request.method == "POST":
+        input_data = request.form.get("input_data")
+        stored_data = input_data  # Store the data
+        return redirect(url_for("process_route"))  # Redirect to the processing route
+    return render_template("input_page.html")
+
+@app.route("/process", methods=["GET", "POST"])
+def process_route():
+    global stored_data  # Access the global variable
+    if request.method == "POST":
+        processed_data = stored_data  # Retrieve the stored data
+        # Process the data as needed
+        return "Processed data: " + processed_data
+    return render_template("process_page.html", stored_data=stored_data)
+
+if __name__ == "__main__":
+    app.run(debug=True)
