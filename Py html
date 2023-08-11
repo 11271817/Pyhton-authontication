@@ -1,0 +1,38 @@
+from flask import Flask, render_template, request, redirect, url_for
+
+app = Flask(__name__)
+
+@app.route('/')
+def index():
+    return render_template('index.html')
+
+@app.route('/process', methods=['POST'])
+def process():
+    input_value = request.form['input_value']
+    # Do something with input_value (e.g., process it, store it, etc.)
+    return f"Value received: {input_value}"
+
+if __name__ == '__main__':
+    app.run(debug=True)
+
+
+new line
+
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Submit Value to Flask App</title>
+</head>
+<body>
+    <form action="{{ url_for('process') }}" method="post">
+        <label for="input_value">Enter a value:</label>
+        <input type="text" id="input_value" name="input_value">
+        <button type="submit">Submit</button>
+    </form>
+</body>
+</html>
+
+
+
+-_----------
+
