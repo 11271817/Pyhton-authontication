@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Textbox Values</title>
+</head>
+<body>
+    <form action="/save" method="post">
+        <label for="textbox1">Textbox 1:</label>
+        <input type="text" id="textbox1" name="textbox1"><br>
+        
+        <label for="textbox2">Textbox 2:</label>
+        <input type="text" id="textbox2" name="textbox2"><br>
+        
+        <button type="submit">Save</button>
+    </form>
+</body>
+</html>
+
+
+----------_-------------
+
+
+from flask import Flask, render_template, request
+
+app = Flask(__name__)
+
+@app.route('/')
+def index():
+    return render_template('index.html')
+
+@app.route('/save', methods=['POST'])
+def save_values():
+    textbox1_value = request.form['textbox1']
+    textbox2_value = request.form['textbox2']
+    
+    # You can perform further processing with the values here.
+    
+    return f"Textbox 1 value: {textbox1_value}<br>Textbox 2 value: {textbox2_value}"
+
+if __name__ == '__main__':
+    app.run(debug=True)
