@@ -1,0 +1,22 @@
+from flask import Flask, render_template, request, redirect, session
+
+app = Flask(__name__)
+app.secret_key = 'your_secret_key'  # Used to secure session data
+
+@app.route('/first', methods=['GET', 'POST'])
+def first_route():
+    if request.method == 'POST':
+        data = request.form['input_data']
+        # Save the data in a session variable
+        session['saved_data'] = data
+        return redirect('/second')  # Redirect to the second route
+    return render_template('first.html')  # Display the HTML form
+
+@app.route('/second')
+def second_route():
+    # Retrieve the saved data from the session
+    saved_data = session.get('saved_data', None)
+    return f"The saved data from the first route is: {saved_data}"
+
+if __name__ == '__main__':
+    app.run()
