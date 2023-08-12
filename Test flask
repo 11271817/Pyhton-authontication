@@ -1,0 +1,20 @@
+from flask import Flask, render_template, request, redirect, session, url_for
+
+app = Flask(__name__)
+app.secret_key = 'your_secret_key'
+
+@app.route('/', methods=['GET', 'POST'])
+def first_route():
+    if request.method == 'POST':
+        input_value = request.form['input_field']
+        session['input_value'] = input_value  # Store the input value in session
+        return redirect(url_for('second_route'))
+    return render_template('first.html')
+
+@app.route('/second')
+def second_route():
+    input_value = session.get('input_value', 'No value passed')  # Retrieve the value from session
+    return f"The input value from the first route is: {input_value}"
+
+if __name__ == '__main__':
+    app.run()
