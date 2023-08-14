@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Storing HTML Values</title>
+</head>
+<body>
+    <input type="text" id="inputField">
+    <button id="storeButton">Store Value</button>
+
+    <script>
+        document.getElementById('storeButton').addEventListener('click', function() {
+            var inputValue = document.getElementById('inputField').value;
+            localStorage.setItem('storedValue', inputValue);
+            console.log("Value stored: " + inputValue);
+        });
+    </script>
+</body>
+</html>
