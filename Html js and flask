@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Passing Values to Flask</title>
+</head>
+<body>
+    <input type="text" id="inputField">
+    <button id="submitButton">Submit</button>
+
+    <script>
+        document.getElementById('submitButton').addEventListener('click', function() {
+            var inputValue = document.getElementById('inputField').value;
+            // Send the value to the Flask server
+            fetch('/process_input', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ input_value: inputValue })
+            })
+            .then(response => response.json())
+            .then(data => {
+                console.log(data.message);
+            });
+        });
+    </script>
+</body>
+</html>
+
+////////////////
+
+
+from flask import Flask, request, jsonify
+
+app = Flask(__name__)
+
+stored_value = None  # To store the input value
+
+@app.route('/')
+def index():
+    return "Hello, please enter a value."
+
+@app.route('/process_input', methods=['POST'])
+def process_input():
+    global stored_value
+    data = request.json
+    stored_value = data['input_value']
+    return jsonify({"message": "Value received and stored."})
+
+@app.route('/display_value')
+def display_value():
+    global stored_value
+    return f"Stored value: {stored_value}"
+
+if __name__ == '__main__':
+    app.run()
