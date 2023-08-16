@@ -1,0 +1,18 @@
+from flask import Flask, render_template, request
+
+app = Flask(__name__)
+
+# Dummy list of items
+all_items = [f"Item {i}" for i in range(1, 1001)]
+
+@app.route('/items')
+def list_items():
+    page = int(request.args.get('page', 1))
+    items_per_page = 50
+    start_idx = (page - 1) * items_per_page
+    end_idx = start_idx + items_per_page
+    items_to_display = all_items[start_idx:end_idx]
+    return render_template('items.html', items=items_to_display, page=page)
+
+if __name__ == '__main__':
+    app.run()
